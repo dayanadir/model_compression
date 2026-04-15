@@ -1,0 +1,31 @@
+name: model-zoo-cifar10-smoke-light
+project: model_compression
+method: grid
+metric:
+  name: test_acc
+  goal: maximize
+parameters:
+  interleave_step:
+    values:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+command:
+- ${env}
+- python3
+- -m
+- model_zoo
+- --config
+- configs/cifar10_smoke_test.yaml
+- --wandb-sweep-trial
+- --wandb-project
+- model_compression
+- --wandb-group
+- dataset_generation_smoke_demo

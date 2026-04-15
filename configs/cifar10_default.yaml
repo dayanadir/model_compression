@@ -1,0 +1,68 @@
+# Default configuration for the diverse CIFAR-10 model zoo.
+# Based on the GMN paper (arxiv 2312.04501): ~30k models across 5 families.
+
+run:
+  output_dir: "./dataset"
+  base_seed: 42
+  device: "cuda"
+  gpu_ids: [0, 1, 2, 3]
+  num_workers: 8
+
+dataset:
+  name: "cifar10"
+  data_dir: "./data"
+  batch_size: 128
+  val_fraction: 0.1
+
+training_defaults:
+  epochs: 50
+  optimizer: ["sgd", "adam", "rmsprop"]
+  lr: [1.0e-3, 1.0e-1, "log_uniform"]
+  weight_decay: [1.0e-5, 1.0e-2, "log_uniform"]
+  label_smoothing: [0.0, 0.2, "uniform"]
+
+families:
+  cnn2d:
+    count: 6000
+    search_space:
+      hidden_dim: [24, 28, 32]
+      conv_layers: [1, 2, 3]
+      fc_layers: [1, 2]
+      norm: ["bn", "gn"]
+      dropout: [0.0, 0.25]
+      activation: ["relu", "gelu"]
+
+  cnn1d:
+    count: 6000
+    search_space:
+      hidden_dim: [24, 28, 32]
+      conv_layers: [1, 2, 3]
+      fc_layers: [1, 2]
+      norm: ["bn", "gn"]
+      dropout: [0.0, 0.25]
+      activation: ["relu", "gelu"]
+
+  deepsets:
+    count: 6000
+    search_space:
+      hidden_dim: [32, 64]
+      equivariant_layers: [2, 3, 4]
+      fc_layers: [1, 2]
+      norm: ["bn", "gn"]
+      dropout: [0.0, 0.25]
+      activation: ["relu", "gelu"]
+
+  resnet:
+    count: 6000
+    search_space:
+      hidden_dim: [16, 32]
+      blocks: [2, 3, 4]
+
+  vit:
+    count: 6000
+    search_space:
+      hidden_dim: [32, 48]
+      num_layers: [2, 3]
+      num_heads: [2]
+      dropout: [0.0, 0.25]
+      patch_size: [4]

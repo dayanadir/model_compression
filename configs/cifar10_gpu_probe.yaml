@@ -1,0 +1,30 @@
+# Minimal GPU probe config: fast check for CUDA training viability.
+run:
+  output_dir: "./dataset_gpu_probe"
+  base_seed: 42
+  device: "cuda"
+  num_workers: 0
+
+dataset:
+  name: "cifar10"
+  data_dir: "./data"
+  batch_size: 32
+  val_fraction: 0.1
+
+training_defaults:
+  epochs: 1
+  optimizer: ["adam"]
+  lr: [1.0e-3, 1.0e-2, "log_uniform"]
+  weight_decay: [0.0, 0.01, "uniform"]
+  label_smoothing: 0.0
+
+families:
+  cnn2d:
+    count: 1
+    search_space:
+      hidden_dim: [16]
+      conv_layers: [1]
+      fc_layers: [1]
+      norm: ["bn"]
+      dropout: [0.0]
+      activation: ["relu"]

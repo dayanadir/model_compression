@@ -1,0 +1,67 @@
+# Smoke test configuration: 2 models per family, 2 epochs.
+# Use this to verify the pipeline works end-to-end.
+
+run:
+  output_dir: "./dataset_smoke"
+  base_seed: 42
+  device: "cpu"
+  num_workers: 0
+
+dataset:
+  name: "cifar10"
+  data_dir: "./data"
+  batch_size: 32
+  val_fraction: 0.1
+
+training_defaults:
+  epochs: 2
+  optimizer: ["adam", "sgd"]
+  lr: [1.0e-3, 1.0e-2, "log_uniform"]
+  weight_decay: [0.0, 0.01, "uniform"]
+  label_smoothing: 0.0
+
+families:
+  cnn2d:
+    count: 2
+    search_space:
+      hidden_dim: [16, 32]
+      conv_layers: [1, 2]
+      fc_layers: [1, 2]
+      norm: ["bn", "none"]
+      dropout: [0.0, 0.1]
+      activation: ["relu"]
+
+  cnn1d:
+    count: 2
+    search_space:
+      hidden_dim: [16, 32]
+      conv_layers: [1, 2]
+      fc_layers: [1, 2]
+      norm: ["bn", "none"]
+      dropout: [0.0, 0.1]
+      activation: ["relu"]
+
+  deepsets:
+    count: 2
+    search_space:
+      hidden_dim: [16, 32]
+      equivariant_layers: [1, 2]
+      fc_layers: [1, 2]
+      norm: ["bn", "none"]
+      dropout: [0.0, 0.1]
+      activation: ["relu"]
+
+  resnet:
+    count: 2
+    search_space:
+      hidden_dim: [16, 32]
+      blocks: [1, 2]
+
+  vit:
+    count: 2
+    search_space:
+      hidden_dim: [32, 64]
+      num_layers: [1, 2]
+      num_heads: [2, 4]
+      dropout: [0.0, 0.1]
+      patch_size: [4, 8]

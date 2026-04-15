@@ -1,0 +1,14 @@
+# Data artifacts
+data/
+dataset/
+dataset_gpu_probe/
+dataset_smoke/
+
+# Experiment and runtime outputs
+logs/
+wandb/
+*.log
+
+# Python caches
+__pycache__/
+*.py[cod]
