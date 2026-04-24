@@ -1,0 +1,70 @@
+name: distill-grid-7m
+project: model_compression
+method: grid
+metric:
+  name: test_kl
+  goal: minimize
+parameters:
+  methods:
+    values:
+    - uniform
+    - random_consistent
+    - l1_structured
+    - magnitude
+    - in_out_meanabs
+    - activation
+    - he_reinit
+command:
+- ${env}
+- python3
+- scripts/evaluate_compression_distillation.py
+- --dataset-dir
+- /home/adir.dayan/model_compression/dataset
+- --data-dir
+- ./data
+- --device
+- cuda
+- --num-workers
+- '8'
+- --split-seed
+- '0'
+- --teacher-train-fraction
+- '0.8'
+- --max-test-teachers
+- '0'
+- --temperature
+- '1.0'
+- --distill-steps
+- '200'
+- --eval-steps
+- 0,5,10,20,50,100,150,200
+- --lr
+- '0.001'
+- --weight-decay
+- '0.0'
+- --batch-size-train
+- '128'
+- --batch-size-test
+- '1024'
+- --seed
+- '0'
+- --calib-seed
+- '0'
+- --calib-n
+- '512'
+- --calib-batch-size
+- '128'
+- --wandb-project
+- model_compression
+- --wandb-mode
+- online
+- --wandb-group
+- distill_full_all_methods_apr2026
+- --wandb-run-prefix
+- d
+- --tmux-session-name
+- distill_wandb_sweep
+- ${args}
+- --wandb-entity
+- adirdayan
+entity: adirdayan
